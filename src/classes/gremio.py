@@ -1,5 +1,15 @@
 ﻿class Gremio:
-    def __init__(self, nombre, miembros, inswgohgg):
-        self.nombre = nombre
-        self.miembros = miembros
-        self.inswgohgg = inswgohgg
+    def __init__(self, items):
+        self.gp = items["Galactic Power"]
+        self.avggp = items["Avg Galactic Power"]
+        self.rey = items["Rey"]
+        self.slkr = items["SLKR"]
+        self.jml = items["JML"]
+        self.see = items["SEE"]
+        self.jmk = items["JMK"]
+        self.lv = items["LV"]
+        self.chargp = items["Character GP"]
+        self.shipgp = items["Ship GP"]
+        self.avgsr = items["Avg Skill Rating"]
+        self.avgarenarank = items["Avg Current Arena Rank"]
+        self.avgshiparenarank = items["Avg Current Fleet Arena Rank"]

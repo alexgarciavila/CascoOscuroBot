@@ -1,2 +1,2 @@
 ﻿# Archivos o carpetas ignorador por GIT y que no subiremos al repositorio
-src/__pycache__
+__pycache__/
