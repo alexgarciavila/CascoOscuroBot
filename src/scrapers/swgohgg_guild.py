@@ -1,26 +1,23 @@
-﻿from optparse import Values
-import requests
+﻿import requests
 from bs4 import BeautifulSoup as bs
-import re
+
 
 def preparar_sopa(urlguild):
     """ Preparación de la sopa para scrapear """
-    r=requests.get(urlguild, timeout=5)
-    soup = bs(r.text,"html.parser")
+    r = requests.get(urlguild, timeout=5)
+    soup = bs(r.text, "html.parser")
     return soup
-
 
 
 def nombre_gremio(soup):
     """
-    Función para scrapear el nombre de la guild 
+    Función para scrapear el nombre de la guild
 
     Buscamos el tag h1, pero como el nombre del gremio no tiene tag,
-    y al pasarlo a texto nos incluye el contenido del tag small, 
+    y al pasarlo a texto nos incluye el contenido del tag small,
     entonces buscamos el tag small y lo eliminamos para que no nos
     lo incluya.
-    Luego eliminamos los espacios en blanco que ha creado el descompose    
-    
+    Luego eliminamos los espacios en blanco que ha creado el descompose
     """
 
     find_nombre = soup.find("h1")
@@ -32,12 +29,13 @@ def nombre_gremio(soup):
 
     return nombre
 
+
 def activos(soup):
     """
     Función para scrapear los usuarios activos en swgoh.gg
 
-    Se deberia mejorar la función seprando los activos del total 
-    NO FUNCIONA    
+    Se deberia mejorar la función seprando los activos del total
+    NO FUNCIONA
     """
 
     find_activos = soup.find("h1")
@@ -48,39 +46,62 @@ def activos(soup):
 
     return num_activos
 
+
 def scrap_items_guild(soup):
     """
         Añadimos a un diccionario todos los datos del gremio
     """
- 
+
     find_items = soup.find_all("div", class_="stat-item-info")
     items = {}
     for item in find_items:
-        items[item.find("div", class_="stat-item-title").text.strip()] = item.find("div", class_="stat-item-value").text.strip()
+        valor = item.find("div", class_="stat-item-value").text.strip()
+        items[item.find("div", class_="stat-item-title").text.strip()] = valor
 
     return items
-    
+
+
 def scrap_miembros_guild(soup):
     """
         Escrapeamos a todos los miembros del gremio
     """
     find_members = soup.find_all("tr")
     miembros = {}
-    valores = []
+    titulos = scrap_titulos(find_members)
+
     for miembro in find_members:
-        #if miembro.find("strong"):
-        #    miembros.append(miembro.find("strong").text.strip())
-            #miembros[miembro.find("strong").text.strip()] = miembro.find("small").text.strip()
         stats = miembro.find_all("td")
         for stat in stats:
-            if stat.find("strong"):
-                key = stat.find("strong").text.strip()
+            nom_miembro = scrap_nom_miembro(stat)
+            if nom_miembro is not None:
+                if nom_miembro not in miembros:
+                    miembros[nom_miembro] = {}
+                    last_member = nom_miembro
+                    contador = 1
             else:
-                value = stat.text.strip()
-                valores.append(value)
-
-            if key not in miembros:
-                miembros[key] = list()
-                valores = []
-            miembros[key] = valores
+                miembros[last_member][titulos[contador]] = stat.text.strip()
+                contador += 1
     return miembros
+
+
+def scrap_titulos(find_titulos):
+    """
+    En esta función scrapeamos los titulos de la tabla de miembros
+    """
+    clean_titles = []
+    for titulo in find_titulos:
+        titulos = titulo.find_all("th")
+        for t in titulos:
+            clean_titles.append(t.text.strip())
+
+    return clean_titles
+
+
+def scrap_nom_miembro(find_nombre):
+    """
+    Comprobamos si es un nombre de un miembro del gremio o no
+    """
+    if find_nombre.find("strong"):
+        nom_miembro = find_nombre.find("strong").text.strip()
+
+        return nom_miembro
