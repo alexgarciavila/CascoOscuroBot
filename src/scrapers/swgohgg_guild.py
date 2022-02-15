@@ -107,6 +107,7 @@ def scrap_nom_miembro(find_nombre):
 
         return nom_miembro
 
+
 def scrap_url_miembro(find_url):
     """
     Extraemos la url de cada miembro de swgoh.gg
@@ -118,3 +119,4 @@ def scrap_url_miembro(find_url):
     url = url_swgohgg + url_miembro["href"]
 
     return url
+    
