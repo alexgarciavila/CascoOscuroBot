@@ -78,6 +78,7 @@ def scrap_miembros_guild(soup):
                     miembros[nom_miembro] = {}
                     last_member = nom_miembro
                     contador = 1
+                    miembros[last_member]["URL"] = scrap_url_miembro(stat)
             else:
                 miembros[last_member][titulos[contador]] = stat.text.strip()
                 contador += 1
@@ -105,3 +106,15 @@ def scrap_nom_miembro(find_nombre):
         nom_miembro = find_nombre.find("strong").text.strip()
 
         return nom_miembro
+
+def scrap_url_miembro(find_url):
+    """
+    Extraemos la url de cada miembro de swgoh.gg
+    """
+    url_swgohgg = "https://swgoh.gg"
+    url_miembro = ""
+
+    url_miembro = find_url.find("a", href=True)
+    url = url_swgohgg + url_miembro["href"]
+
+    return url
