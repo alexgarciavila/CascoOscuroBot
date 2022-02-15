@@ -2,6 +2,7 @@ from scrapers import swgohgg_user
 from scrapers import swgohgg_guild
 from classes.usuarios import Usuario
 from classes.gremio import Gremio
+from classes.miembros import Miembros
 from classes.json import Json
 
 
@@ -22,8 +23,11 @@ url_guild = "https://swgoh.gg/g/708/discipulos-de-casco-oscuro/"
 sopa_guild = swgohgg_guild.preparar_sopa(url_guild)
 nombre_guild = swgohgg_guild.nombre_gremio(sopa_guild)
 items_guild = swgohgg_guild.scrap_items_guild(sopa_guild)
-miembros = swgohgg_guild.scrap_miembros_guild(sopa_guild)
-print(miembros)
+# miembros = swgohgg_guild.scrap_miembros_guild(sopa_guild)
+# print(miembros)
 guild = Gremio(items_guild)
-#crear_json = Json()
-#miembros_json = crear_json.crear_json(miembros)
+
+guild.listar_miembro(sopa_guild)
+
+# crear_json = Json()
+# miembros_json = crear_json.crear_json(miembros)

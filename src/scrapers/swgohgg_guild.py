@@ -119,4 +119,3 @@ def scrap_url_miembro(find_url):
     url = url_swgohgg + url_miembro["href"]
 
     return url
-    

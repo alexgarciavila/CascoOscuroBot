@@ -22,7 +22,7 @@ def telegram_usuario():
 
 def discord_usuario():
     """ Función para scrapear el usuario de Discord de un usuario """
-    # ESTAMOS EN ESTA FUNCIÓN
+
     find_discord = soup.find("h5", class_="panel-title text-center")
     discord = find_discord.get_text()
     return discord
