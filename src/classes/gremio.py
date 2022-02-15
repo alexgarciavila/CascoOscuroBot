@@ -28,10 +28,21 @@ class Gremio:
         for m in miembros.keys():
             items = miembros[m]
             members = Miembros(m, items)
-            print(members.name)
-            print(members.url)
-            print(members.gp)
-            print(members.playerskillrating)
-            print(members.arenarank)
-            print(members.fleetarenarank)
-            print(members.role)
+            txt = ("El usuario {nombre} tiene un GP de {gp} "
+                   "con un Skill Rating de {sk}. Su rango de "
+                   "arena es {ar} y en naves {far}. "
+                   "Su rol dentro del gremio es {role} y su URL "
+                   "de swgoh es {url}"
+                   ).format(
+                            nombre=members.name,
+                            gp=members.gp,
+                            sk=members.playerskillrating,
+                            ar=members.arenarank,
+                            far=members.fleetarenarank,
+                            role=members.role,
+                            url=members.url
+                            )
+            print(txt)
+
+    def buscar_miembro(self):
+        print("hola")
