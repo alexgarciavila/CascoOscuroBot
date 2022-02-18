@@ -21,13 +21,24 @@ if __name__ == '__main__':
 
 url_guild = "https://swgoh.gg/g/708/discipulos-de-casco-oscuro/"
 sopa_guild = swgohgg_guild.preparar_sopa(url_guild)
+
+url_guild2 = "https://swgoh.gg/g/oAYG8MpVSfigDgyI75C-qQ/"
+sopa_guild2 = swgohgg_guild.preparar_sopa(url_guild2)
+
 nombre_guild = swgohgg_guild.nombre_gremio(sopa_guild)
 items_guild = swgohgg_guild.scrap_items_guild(sopa_guild)
 # miembros = swgohgg_guild.scrap_miembros_guild(sopa_guild)
 # print(miembros)
 guild = Gremio(items_guild)
 
+
+nombre_guild2 = swgohgg_guild.nombre_gremio(sopa_guild2)
+items_guild2 = swgohgg_guild.scrap_items_guild(sopa_guild2)
+guild2 = Gremio(items_guild2)
+
 guild.listar_miembro(sopa_guild)
+
+swgohgg_guild.comparar_gremio(guild, guild2, nombre_guild, nombre_guild2)
 
 # crear_json = Json()
 # miembros_json = crear_json.crear_json(miembros)

@@ -119,3 +119,171 @@ def scrap_url_miembro(find_url):
     url = url_swgohgg + url_miembro["href"]
 
     return url
+
+
+def comparar_gremio(guild, guild2, nombre_guild, nombre_guild2):
+    """
+    Obtenemos los datos de dos gremios y los comparamos.
+    Mostramos un resumen de las conclusiones
+
+    TENEMOS QUE REFACTORIZAR TODOS ESOS IF
+    """
+    txt_g1 = (
+              "\nGremio {name_1}\n"
+              "Galactic Power: {gp_1}\n"
+              "Media de GP: {avggp_1}\n\n"
+              "Leyendas Galácticas\n"
+              "REY: {rey_1}\n"
+              "Supreme Leader Kylo Ren: {slkr_1}\n"
+              "Jedi Master Luke: {jml_1}\n"
+              "Sith Eternal Emperor: {see_1}\n"
+              "Jedi Master Kenobi: {jmk_1}\n"
+              "Lord Vader: {lv_1}\n\n"
+              ).format(
+                       name_1=nombre_guild,
+                       gp_1=guild.gp,
+                       avggp_1=guild.avggp,
+                       rey_1=guild.rey,
+                       slkr_1=guild.slkr,
+                       jml_1=guild.jml,
+                       see_1=guild.see,
+                       jmk_1=guild.jmk,
+                       lv_1=guild.lv,
+              )
+    txt_g2 = (
+              "\nGremio {name_2}\n"
+              "Galactic Power: {gp_2}\n"
+              "Media de GP: {avggp_2}\n\n"
+              "Leyendas Galácticas\n"
+              "REY: {rey_2}\n"
+              "Supreme Leader Kylo Ren: {slkr_2}\n"
+              "Jedi Master Luke: {jml_2}\n"
+              "Sith Eternal Emperor: {see_2}\n"
+              "Jedi Master Kenobi: {jmk_2}\n"
+              "Lord Vader: {lv_2}\n\n"
+              ).format(
+                       name_2=nombre_guild2,
+                       gp_2=guild2.gp,
+                       avggp_2=guild2.avggp,
+                       rey_2=guild2.rey,
+                       slkr_2=guild2.slkr,
+                       jml_2=guild2.jml,
+                       see_2=guild2.see,
+                       jmk_2=guild2.jmk,
+                       lv_2=guild2.lv,
+              )
+    rey_comp = int(guild.rey) - int(guild2.rey)
+    slkr_comp = int(guild.slkr) - int(guild2.slkr)
+    jml_comp = int(guild.jml) - int(guild2.jml)
+    see_comp = int(guild.see) - int(guild2.see)
+    jmk_comp = int(guild.jmk) - int(guild2.jmk)
+    lv_comp = int(guild.lv) - int(guild2.lv)
+
+    # REY LG
+    if rey_comp < 0:
+        txt_rey = (
+                   "Tenemos {rey} REYS menos que el otro gremio\n"
+                  ).format(
+                      rey=abs(rey_comp)
+                  )
+    elif rey_comp > 0:
+        txt_rey = (
+                   "Tenemos {rey} REYS más que el otro gremio\n"
+                  ).format(
+                      rey=abs(rey_comp)
+                  )
+    else:
+        txt_rey = "Tenemos las mismas REYS que el otro gremio\n"
+
+    # SLKR LG
+    if slkr_comp < 0:
+        txt_slkr = (
+                   "Tenemos {slkr} Supreme Leader Kylo Ren "
+                   "menos que el otro gremio\n"
+                  ).format(
+                      slkr=abs(slkr_comp)
+                  )
+    elif slkr_comp > 0:
+        txt_slkr = (
+                   "Tenemos {slkr} Supreme Leader Kylo Ren "
+                   "más que el otro gremio\n"
+                  ).format(
+                      slkr=abs(slkr_comp)
+                  )
+    else:
+        txt_slkr = (
+                    "Tenemos los mismos Supreme Leader Kylo Ren "
+                    "que el otro gremio\n"
+                    )
+
+    # JML
+    if jml_comp < 0:
+        txt_jml = (
+                   "Tenemos {jml} Jedi Master Luke menos que el otro gremio\n"
+                  ).format(
+                      jml=abs(jml_comp)
+                  )
+    elif jml_comp > 0:
+        txt_jml = (
+                   "Tenemos {jml} Jedi Master Luke más que el otro gremio\n"
+                  ).format(
+                      jml=abs(jml_comp)
+                  )
+    else:
+        txt_jml = "Tenemos los mismos Jedi Master Luke que el otro gremio\n"
+
+    # SEE
+    if see_comp < 0:
+        txt_see = (
+                   "Tenemos {see} Sith Eternal Emperor "
+                   "menos que el otro gremio\n"
+                  ).format(
+                      see=abs(see_comp)
+        )
+    elif see_comp > 0:
+        txt_see = (
+                   "Tenemos {see} Sith Eternal Emperor "
+                   "más que el otro gremio\n"
+                  ).format(
+                      see=abs(see_comp)
+        )
+    else:
+        txt_see = (
+                    "Tenemos los mismos Sith Eternal Emperor "
+                    "que el otro gremio\n"
+        )
+
+    # JMK
+    if jmk_comp < 0:
+        txt_jmk = (
+                   "Tenemos {jmk} Jedi Master Kenobi menos "
+                   "que el otro gremio\n"
+                  ).format(
+                      jmk=abs(jmk_comp)
+                  )
+    elif jmk_comp > 0:
+        txt_jmk = (
+                   "Tenemos {jmk} Jedi Master Kenobi más que el otro gremio\n"
+                  ).format(
+                      jmk=abs(jmk_comp)
+                  )
+    else:
+        txt_jmk = "Tenemos los mismos Jedi Master Kenobi que el otro gremio\n"
+
+    # LV
+    if lv_comp < 0:
+        txt_lv = (
+                   "Tenemos {lv} Lord Vader menos que el otro gremio\n"
+                  ).format(
+                      lv=abs(lv_comp)
+                  )
+    elif lv_comp > 0:
+        txt_lv = (
+                   "Tenemos {lv} Lord Vader más que el otro gremio\n"
+                  ).format(
+                      lv=abs(lv_comp)
+                  )
+    else:
+        txt_lv = "Tenemos los mismos Lord Vader que el otro gremio\n"
+
+    print(txt_g1, txt_g2, txt_rey, txt_slkr, txt_jml, txt_see, txt_jmk, txt_lv)
