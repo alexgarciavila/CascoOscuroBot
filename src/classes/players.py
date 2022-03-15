@@ -4,6 +4,10 @@
 class Players:
     def __init__(self, allycode):
         self.ally_code = allycode
+        self.player_api = ""
+        self.player_data = ""
+        self.player_units = ""
+        # Extraidos de la API
         self.arena_leader_base_id = ""
         self.arena_rank = ""
         self.level = ""
@@ -44,7 +48,7 @@ class Players:
         self.guild_name = ""
         self.guild_url = ""
 
-    def search_player(self):
+    def search_player_api(self):
         """
         Conectamos con la API del jugador a través
         de su código de aliado
@@ -52,22 +56,15 @@ class Players:
         # Inicializamos el cliente que se conecta con la API
         client = coreapi.Client()
         # Importamos la estuctura de la api de un usuario
-        player_api = client.get(f"https://swgoh.gg/api/player/{self.ally_code}/")
-        player_data = self.search_player_data(player_api)
-        self.set_player_data(player_data)
-        player_units = self.search_player_units(player_api)
-        # print(player_data)
-        # print(player_units)
-
+        self.player_api = client.get(f"https://swgoh.gg/api/player/{self.ally_code}/")
+        
     def search_player_data(self, player_api):
         """
         Recibimos los datos de la API del jugador
         y extraemos los correspondientes a
-        su información
+        su información.
         """
-        player_data = player_api["data"]
-
-        return player_data
+        self.player_data = player_api["data"]
 
     def search_player_units(self, player_api):
         """
@@ -75,9 +72,7 @@ class Players:
         y extraemos los correspondientes a las
         unidades que posee
         """
-        player_units = player_api["units"]
-
-        return player_units
+        self.player_units = player_api["units"]
 
     def set_player_data(self, player_data):
         """
