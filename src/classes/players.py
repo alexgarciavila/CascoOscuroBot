@@ -7,6 +7,7 @@ class Players:
         self.player_api = ""
         self.player_data = ""
         self.player_units = ""
+        self.has_reylg = False
         # Extraidos de la API
         self.arena_leader_base_id = ""
         self.arena_rank = ""
@@ -47,6 +48,7 @@ class Players:
         self.guild_id = ""
         self.guild_name = ""
         self.guild_url = ""
+        self.reylg_relic = ""
 
     def search_player_api(self):
         """
@@ -56,74 +58,86 @@ class Players:
         # Inicializamos el cliente que se conecta con la API
         client = coreapi.Client()
         # Importamos la estuctura de la api de un usuario
-        self.player_api = client.get(f"https://swgoh.gg/api/player/{self.ally_code}/")
-        
-    def search_player_data(self, player_api):
+        self.player_api = client.get(f"https://swgoh.gg/api/player/"
+                                     f"{self.ally_code}/")
+
+    def search_player_data(self):
         """
         Recibimos los datos de la API del jugador
         y extraemos los correspondientes a
         su información.
         """
-        self.player_data = player_api["data"]
+        self.player_data = self.player_api["data"]
 
-    def search_player_units(self, player_api):
+    def search_player_units(self):
         """
         Recibimos los datos de la API del jugador
         y extraemos los correspondientes a las
         unidades que posee
         """
-        self.player_units = player_api["units"]
+        self.player_units = self.player_api["units"]
 
-    def set_player_data(self, player_data):
+    def set_player_data(self):
         """
         Función para setear los datos del jugador en función
         de su código de aliado
         """
-        self.name = player_data["name"]
-        self.arena_leader_base_id = player_data["arena_leader_base_id"]
-        self.arena_rank = player_data["arena_rank"]
-        self.level = player_data["level"]
-        self.name = player_data["name"]
-        self.last_updated = player_data["last_updated"]
-        self.galactic_power = player_data["galactic_power"]
-        self.character_gp = player_data["character_galactic_power"]
-        self.ship_gp = player_data["ship_galactic_power"]
-        self.ship_battles_won = player_data["ship_battles_won"]
-        self.pvp_battles_won = player_data["pvp_battles_won"]
-        self.pve_battles_won = player_data["pve_battles_won"]
-        self.pve_hard_won = player_data["pve_hard_won"]
-        self.galactic_war_won = player_data["galactic_war_won"]
-        self.guild_raid_won = player_data["guild_raid_won"]
-        self.guild_contribution = player_data["guild_contribution"]
-        self.guild_donations = player_data["guild_exchange_donations"]
-        self.season_full_clears = player_data["season_full_clears"]
-        self.season_successful_defends = player_data[
+        self.name = self.player_data["name"]
+        self.arena_leader_base_id = self.player_data["arena_leader_base_id"]
+        self.arena_rank = self.player_data["arena_rank"]
+        self.level = self.player_data["level"]
+        self.name = self.player_data["name"]
+        self.last_updated = self.player_data["last_updated"]
+        self.galactic_power = self.player_data["galactic_power"]
+        self.character_gp = self.player_data["character_galactic_power"]
+        self.ship_gp = self.player_data["ship_galactic_power"]
+        self.ship_battles_won = self.player_data["ship_battles_won"]
+        self.pvp_battles_won = self.player_data["pvp_battles_won"]
+        self.pve_battles_won = self.player_data["pve_battles_won"]
+        self.pve_hard_won = self.player_data["pve_hard_won"]
+        self.galactic_war_won = self.player_data["galactic_war_won"]
+        self.guild_raid_won = self.player_data["guild_raid_won"]
+        self.guild_contribution = self.player_data["guild_contribution"]
+        self.guild_donations = self.player_data["guild_exchange_donations"]
+        self.season_full_clears = self.player_data["season_full_clears"]
+        self.season_successful_defends = self.player_data[
             "season_successful_defends"
             ]
-        self.season_league_score = player_data["season_league_score"]
-        self.season_undersized_squad_wins = player_data[
+        self.season_league_score = self.player_data["season_league_score"]
+        self.season_undersized_squad_wins = self.player_data[
             "season_undersized_squad_wins"
             ]
-        self.season_promotions_earned = player_data["season_promotions_earned"]
-        self.season_banners_earned = player_data["season_banners_earned"]
-        self.season_offensive_battles_won = player_data[
+        self.season_promotions_earned = self.player_data["season_promotions_earned"]
+        self.season_banners_earned = self.player_data["season_banners_earned"]
+        self.season_offensive_battles_won = self.player_data[
             "season_offensive_battles_won"
             ]
-        self.season_territories_defeated = player_data[
+        self.season_territories_defeated = self.player_data[
             "season_territories_defeated"
             ]
-        self.url = player_data["url"]
-        self.arena = player_data["arena"]
-        self.fleet_arena = player_data["fleet_arena"]
-        self.skill_rating = player_data["skill_rating"]
-        self.division_number = player_data["division_number"]
-        self.league_name = player_data["league_name"]
-        self.league_frame_image = player_data["league_frame_image"]
-        self.league_blank_image = player_data["league_blank_image"]
-        self.league_image = player_data["league_image"]
-        self.division_image = player_data["division_image"]
-        self.portrait_image = player_data["portrait_image"]
-        self.title = player_data["title"]
-        self.guild_id = player_data["guild_id"]
-        self.guild_name = player_data["guild_name"]
-        self.guild_url = player_data["guild_url"]
+        self.url = self.player_data["url"]
+        self.arena = self.player_data["arena"]
+        self.fleet_arena = self.player_data["fleet_arena"]
+        self.skill_rating = self.player_data["skill_rating"]
+        self.division_number = self.player_data["division_number"]
+        self.league_name = self.player_data["league_name"]
+        self.league_frame_image = self.player_data["league_frame_image"]
+        self.league_blank_image = self.player_data["league_blank_image"]
+        self.league_image = self.player_data["league_image"]
+        self.division_image = self.player_data["division_image"]
+        self.portrait_image = self.player_data["portrait_image"]
+        self.title = self.player_data["title"]
+        self.guild_id = self.player_data["guild_id"]
+        self.guild_name = self.player_data["guild_name"]
+        self.guild_url = self.player_data["guild_url"]
+
+    def search_rey_lg(self):
+        """
+        Buscamos si tiene a REY LG.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Rey":
+                self.has_reylg = True
+                self.reylg_relic = unit["data"]["relic_tier"]
+                break
