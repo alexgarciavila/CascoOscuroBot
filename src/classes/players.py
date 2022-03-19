@@ -8,6 +8,11 @@ class Players:
         self.player_data = ""
         self.player_units = ""
         self.has_reylg = False
+        self.has_slkr = False
+        self.has_jml = False
+        self.has_see = False
+        self.has_jmk = False
+        self.has_lv = False
         # Extraidos de la API
         self.arena_leader_base_id = ""
         self.arena_rank = ""
@@ -49,6 +54,11 @@ class Players:
         self.guild_name = ""
         self.guild_url = ""
         self.reylg_relic = ""
+        self.slkr_relic = ""
+        self.jml_relic = ""
+        self.see_relic = ""
+        self.jmk_relic = ""
+        self.lv_relic = ""
 
     def search_player_api(self):
         """
@@ -139,5 +149,66 @@ class Players:
         for unit in self.player_units:
             if unit["data"]["name"] == "Rey":
                 self.has_reylg = True
-                self.reylg_relic = unit["data"]["relic_tier"]
+                # La API da dos niveles de reliquia por encima
+                self.reylg_relic = unit["data"]["relic_tier"] - 2
+                break
+
+    def search_slkr(self):
+        """
+        Buscamos si tiene a SLKR.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Supreme Leader Kylo Ren":
+                self.has_slkr = True
+                # La API da dos niveles de reliquia por encima
+                self.slkr_relic = unit["data"]["relic_tier"] - 2
+                break
+
+    def search_jml(self):
+        """
+        Buscamos si tiene a JML.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Jedi Master Luke":
+                self.has_jml = True
+                # La API da dos niveles de reliquia por encima
+                self.jml_relic = unit["data"]["relic_tier"] - 2
+                break
+
+    def search_see(self):
+        """
+        Buscamos si tiene a SEE.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Sith Eternal Emperor":
+                self.has_see = True
+                # La API da dos niveles de reliquia por encima
+                self.see_relic = unit["data"]["relic_tier"] - 2
+                break
+
+    def search_jmk(self):
+        """
+        Buscamos si tiene a JMK.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Jedi Master Kenobi":
+                self.has_jmk = True
+                # La API da dos niveles de reliquia por encima
+                self.jmk_relic = unit["data"]["relic_tier"] - 2
+                break
+
+    def search_lv(self):
+        """
+        Buscamos si tiene a LV.
+        Devolvemos el nivel de Reliquia.
+        """
+        for unit in self.player_units:
+            if unit["data"]["name"] == "Lord Vader":
+                self.has_lv = True
+                # La API da dos niveles de reliquia por encima
+                self.lv_relic = unit["data"]["relic_tier"] - 2
                 break

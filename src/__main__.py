@@ -15,7 +15,7 @@ def print_hi(name):
 
 if __name__ == '__main__':
     print_hi('Casco Oscuro Bot')
-    
+
 
 
 # url_guild = "https://swgoh.gg/g/708/discipulos-de-casco-oscuro/"
@@ -90,4 +90,14 @@ print(player01.name)
 #prueba = player01.player_units
 #print(prueba)
 player01.search_rey_lg()
-print(player01.reylg_relic)
+player01.search_slkr()
+player01.search_jml()
+player01.search_see()
+player01.search_jmk()
+player01.search_lv()
+print("Rey LG = R" + str(player01.reylg_relic))
+print("SKLR = R" + str(player01.slkr_relic))
+print("JML = R" + str(player01.jml_relic))
+print("SEE = R" + str(player01.see_relic))
+print("JMK = R" + str(player01.jmk_relic))
+print("LV = R" + str(player01.lv_relic))
