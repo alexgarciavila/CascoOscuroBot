@@ -1,12 +1,14 @@
-from scrapers import swgohgg_user
-from scrapers import swgohgg_guild
-from classes.usuarios import Usuario
-from classes.gremio import Gremio
-from classes.miembros import Miembros
+# from scrapers import swgohgg_user
+# from scrapers import swgohgg_guild
+# from classes.usuarios import Usuario
+from classes.guild import Guild
+from classes.members import Members
 from classes.players import Players
-from classes.json import Json
-import coreapi
-from bots import telegrambot
+import json
+import os
+# from classes.json import Json
+# import coreapi
+# from bots import telegrambot
 
 
 def print_hi(name):
@@ -71,12 +73,14 @@ print(schema["data"]["members"][1]["player_name"])
 
 
 
-#id_gremio = "0JadhFYYRxa42RChGLFxvA"
-#cascos = Gremio("0JadhFYYRxa42RChGLFxvA")
-#cascos.search_guild()
-#cascos.listar_miembro(cascos.id)
-#miembro1 = Miembros(miembros_g1)
-#print(miembro1.name)
+id_gremio = "0JadhFYYRxa42RChGLFxvA"
+cascos = Guild(id_gremio)
+cascos.guild_updater()
+cascos.search_guild_api()
+cascos.search_guild_data()
+cascos.set_guild_data()
+cascos.search_guild_members()
+#cascos.list_members()
 
 #telegrambot.main()
 
@@ -87,7 +91,7 @@ player01.search_player_data()
 player01.set_player_data()
 player01.search_player_units()
 print(player01.name)
-#prueba = player01.player_units
+#prueba = player01.player_unitsS
 #print(prueba)
 player01.search_rey_lg()
 player01.search_slkr()
@@ -101,3 +105,14 @@ print("JML = R" + str(player01.jml_relic))
 print("SEE = R" + str(player01.see_relic))
 print("JMK = R" + str(player01.jmk_relic))
 print("LV = R" + str(player01.lv_relic))
+
+miembro01 = Members("477628732")
+miembro01.search_player_api()
+miembro01.search_player_data()
+miembro01.set_player_data()
+print(miembro01.ally_code)
+print(miembro01.name)
+
+guild
+
+
