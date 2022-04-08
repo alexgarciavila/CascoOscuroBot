@@ -1,4 +1,6 @@
 ﻿import coreapi
+import json
+from datetime import datetime
 
 
 class Players:
@@ -140,6 +142,75 @@ class Players:
         self.guild_id = self.player_data["guild_id"]
         self.guild_name = self.player_data["guild_name"]
         self.guild_url = self.player_data["guild_url"]
+
+    def player_loader(self):
+        """
+        Cargamos los datos locales.
+        Si no existen, los actualizamos
+        """
+
+        in_file = f"json/{self.ally_code}_data.json"
+        try:
+            with open(in_file) as playerfile:
+                self.player_api = json.load(playerfile)
+        except FileNotFoundError:
+            self.player_updater()
+        # self.search_guild_data()
+        # self.search_guild_members()
+        # self.set_guild_data()
+
+    def player_updater(self):
+        """
+        Actualizamos los datos del jugador y
+        y los guardamos en un archivo Json
+        """
+        
+        # Comprobamos si tenemos datos actualizados
+        in_file = f"json/{self.ally_code}_data.json"
+        try:
+            with open(in_file) as playerfile:
+                self.guild_api = json.load(playerfile)
+                self.search_player_data()
+                last_sync = datetime.strptime(self.player_data["last_updated"],"%Y-%m-%dT%H:%M:%S.%f")
+                last_sync_date = last_sync.strftime("%d-%m-%Y")
+                print(f"Los datos están actualizados a fecha "
+                      f"de: {last_sync_date}\n")
+                last_sync_today = datetime.today().strftime("%d-%m-%Y")
+                if last_sync_date != last_sync_today:
+                    print("¿Desea actualizar los datos? (S/N)")
+                    answer = input(">>> ")
+                    while True:
+                        if answer.lower() == "s":
+                            self.search_player_api()
+                            self.search_player_data()
+                            player_id = self.player_data["ally_code"]
+                            out_file = f"json/{player_id}_data.json"
+                            with open(out_file, "w") as playerfile:
+                                json.dump(self.player_api, playerfile, indent=4)
+                            break
+                        elif answer.lower() == "n":
+                            print("\nNo se han actualizados los datos.")
+                            print(f"Última fecha de actualizacion: {last_sync_date}\n")
+                            break
+                        else:
+                            print("Por favor, introduce S o N")
+                            answer = input(">>> ")
+                else:
+                    print("Los datos ya están actualizados")
+        except FileNotFoundError:
+            print("Datos no encontrados...")
+            print("Procedemos a actualizarlos")
+            # Llamamos a la API para recolectar los datos del jugador
+            self.search_player_api()
+            self.search_player_data()
+            # Eliminamos espacios para evitar errores en los ficheros
+            player_id = self.player_data["ally_code"]
+            # Grabamos los datos en un archivo Json
+            out_file = f"json/{player_id}_data.json"
+            with open(out_file, "w") as playerfile:
+                json.dump(self.player_api, playerfile, indent=4)
+        
+        # member_name = miembro01.name.replace(" ", "_")
 
     def search_rey_lg(self):
         """

@@ -1,5 +1,4 @@
-﻿from re import S
-import coreapi
+﻿import coreapi
 import json
 from datetime import datetime
 from classes.members import Members
@@ -47,6 +46,10 @@ class Guild:
         self.guild_data = self.guild_api["data"]
     
     def search_guild_members(self):
+        """
+        Extraemos de los datos de la guild
+        los miembros
+        """
         self.guild_members = self.guild_data["members"]
     
     def set_guild_data(self):
@@ -77,7 +80,7 @@ class Guild:
         for index, guild_member in enumerate(self.guild_members):
             ally_code = guild_member["ally_code"]
             member = Members(ally_code)
-            member.search_player_api()
+            member.player_loader()
             member.search_player_data()
             member.set_player_data()
             member.role = guild_member["member_level"]
@@ -124,41 +127,61 @@ class Guild:
         
         # Comprobamos si tenemos datos actualizados
         in_file = f"json/{self.id}_data.json"
-        with open(in_file) as guildfile:
-            self.guild_api = json.load(guildfile)
-            self.search_guild_data()
-        
-        last_sync = datetime.strptime(self.guild_data["last_sync"],"%Y-%m-%dT%H:%M:%S.%f")
-        last_sync_date = last_sync.strftime("%d-%m-%Y")
-        print(f"Los datos están actualizados a fecha "
-              f"de: {last_sync_date}\n")
-        last_sync_today = datetime.today().strftime("%d-%m-%Y")
-        if last_sync_date != last_sync_today:
-            print("¿Desea actualizar los datos? (S/N)")
-            answer = input(">>> ")
-            while True:
-                if answer.lower() == "s":
-                    # Llamamos a la API para recolectar los datos de la guild
-                    self.search_guild_api()
-                    self.search_guild_data()
-                    # Eliminamos espacios para evitar errores en los ficheros
-                    guild_name = self.guild_data["guild_id"].replace(" ", "_")
-                    # Grabamos los datos en un archivo Json
-                    out_file = f"json/{guild_name}_data.json"
-                    with open(out_file, "w") as guildfile:
-                        json.dump(self.guild_api, guildfile, indent=4)
-                    break
-                elif answer.lower() == "n":
-                    print("\nNo se han actualizados los datos.")
-                    print(f"Última fecha de actualizacion: {last_sync_date}\n")
-                    break
-                else:
-                    print("Por favor, introduce S o N")
+        try:
+            with open(in_file) as guildfile:
+                self.guild_api = json.load(guildfile)
+                self.search_guild_data()
+                last_sync = datetime.strptime(self.guild_data["last_sync"],"%Y-%m-%dT%H:%M:%S.%f")
+                last_sync_date = last_sync.strftime("%d-%m-%Y")
+                print(f"Los datos están actualizados a fecha "
+                    f"de: {last_sync_date}\n")
+                last_sync_today = datetime.today().strftime("%d-%m-%Y")
+                if last_sync_date != last_sync_today:
+                    print("¿Desea actualizar los datos? (S/N)")
                     answer = input(">>> ")
-        else:
-            print("Los datos ya están actualizados")
-        
-        #member_name = miembro01.name.replace(" ", "_")
+                    while True:
+                        if answer.lower() == "s":
+                            self.search_guild_api()
+                            self.search_guild_data()
+                            guild_id = self.guild_data["guild_id"].replace(" ", "_")
+                            out_file = f"json/{guild_id}_data.json"
+                            with open(out_file, "w") as guildfile:
+                                json.dump(self.guild_api, guildfile, indent=4)
+                            break
+                        elif answer.lower() == "n":
+                            print("\nNo se han actualizados los datos.")
+                            print(f"Última fecha de actualizacion: {last_sync_date}\n")
+                            break
+                        else:
+                            print("Por favor, introduce S o N")
+                            answer = input(">>> ")
+                else:
+                    print("Los datos ya están actualizados")
+        except FileNotFoundError:
+            print("Datos no encontrados...")
+            print("Procedemos a actualizarlos")
+            # Llamamos a la API para recolectar los datos de la guild
+            self.search_guild_api()
+            self.search_guild_data()
+            # Eliminamos espacios para evitar errores en los ficheros
+            guild_id = self.guild_data["guild_id"].replace(" ", "_")
+            # Grabamos los datos en un archivo Json
+            out_file = f"json/{guild_id}_data.json"
+            with open(out_file, "w") as guildfile:
+                json.dump(self.guild_api, guildfile, indent=4)
 
     def guild_loader(self):
-        print("loader")
+        """
+        Cargamos los datos locales.
+        Si no existen, los actualizamos
+        """
+
+        in_file = f"json/{self.id}_data.json"
+        try:
+            with open(in_file) as guildfile:
+                self.guild_api = json.load(guildfile)
+        except FileNotFoundError:
+            self.guild_updater()
+        self.search_guild_data()
+        self.search_guild_members()
+        self.set_guild_data()

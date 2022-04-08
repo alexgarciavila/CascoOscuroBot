@@ -72,23 +72,21 @@ print(schema["data"]["members"][1]["player_name"])
 """
 
 
-
+# player01 = Players("336544232")
+player01 = Players("477628732")
 id_gremio = "0JadhFYYRxa42RChGLFxvA"
 cascos = Guild(id_gremio)
-cascos.guild_updater()
+# cascos.guild_updater()
 cascos.guild_loader()
+cascos.list_members()
+# cascos.list_members()
 
 input("pausing....")
-cascos.search_guild_api()
-cascos.search_guild_data()
-cascos.set_guild_data()
-cascos.search_guild_members()
+
 #cascos.list_members()
 
 #telegrambot.main()
 
-#player01 = Players("336544232")
-player01 = Players("477628732")
 player01.search_player_api()
 player01.search_player_data()
 player01.set_player_data()
