@@ -76,6 +76,9 @@ print(schema["data"]["members"][1]["player_name"])
 id_gremio = "0JadhFYYRxa42RChGLFxvA"
 cascos = Guild(id_gremio)
 cascos.guild_updater()
+cascos.guild_loader()
+
+input("pausing....")
 cascos.search_guild_api()
 cascos.search_guild_data()
 cascos.set_guild_data()
@@ -113,6 +116,11 @@ miembro01.set_player_data()
 print(miembro01.ally_code)
 print(miembro01.name)
 
-guild
+    #out_file = f"json/{member_name}_data.json"
+    #with open(out_file, "w") as memberfile:
+    #    json.dump(miembro01.player_data, memberfile, indent=4)
 
 
+    #out_file = f"json/{member_name}_units.json"
+    #with open(out_file, "w") as memberfile:
+    #    json.dump(player01.player_units, memberfile, indent=4)

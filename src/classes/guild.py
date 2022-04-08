@@ -1,4 +1,5 @@
-﻿import coreapi
+﻿from re import S
+import coreapi
 import json
 from datetime import datetime
 from classes.members import Members
@@ -133,24 +134,31 @@ class Guild:
               f"de: {last_sync_date}\n")
         last_sync_today = datetime.today().strftime("%d-%m-%Y")
         if last_sync_date != last_sync_today:
-            print("¿Desea actualizar los datos?")
+            print("¿Desea actualizar los datos? (S/N)")
+            answer = input(">>> ")
+            while True:
+                if answer.lower() == "s":
+                    # Llamamos a la API para recolectar los datos de la guild
+                    self.search_guild_api()
+                    self.search_guild_data()
+                    # Eliminamos espacios para evitar errores en los ficheros
+                    guild_name = self.guild_data["guild_id"].replace(" ", "_")
+                    # Grabamos los datos en un archivo Json
+                    out_file = f"json/{guild_name}_data.json"
+                    with open(out_file, "w") as guildfile:
+                        json.dump(self.guild_api, guildfile, indent=4)
+                    break
+                elif answer.lower() == "n":
+                    print("\nNo se han actualizados los datos.")
+                    print(f"Última fecha de actualizacion: {last_sync_date}\n")
+                    break
+                else:
+                    print("Por favor, introduce S o N")
+                    answer = input(">>> ")
         else:
             print("Los datos ya están actualizados")
         
         #member_name = miembro01.name.replace(" ", "_")
-        # Llamamos a la API para recolectar los datos de la guild
-        self.search_guild_api()
-        self.search_guild_data()
-        guild_name = self.guild_data["guild_id"].replace(" ", "_")
-        #out_file = f"json/{member_name}_data.json"
-        #with open(out_file, "w") as memberfile:
-        #    json.dump(miembro01.player_data, memberfile, indent=4)
 
-
-        #out_file = f"json/{member_name}_units.json"
-        #with open(out_file, "w") as memberfile:
-        #    json.dump(player01.player_units, memberfile, indent=4)
-
-        out_file = f"json/{guild_name}_data.json"
-        with open(out_file, "w") as guildfile:
-            json.dump(self.guild_api, guildfile, indent=4)
+    def guild_loader(self):
+        print("loader")
